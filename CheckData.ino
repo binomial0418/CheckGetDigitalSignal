@@ -1,7 +1,7 @@
 //1.啟動後從nodeMCU的ROM中取出WIFI設定。
 //2.若取得合理WIFI密碼，則連線WIFI。若連線失敗自動進入AP模式讓使用者連線重設帳密。
 //3.若沒有合理帳密，或是連續按三下flash鍵自動進入AP模式讓使用者連線重設帳密。
-//4.進入AP模式後，請連接WIFI名稱為ESPXXXX，之後進入192.168.4.1設定WIFI。
+//4.進入AP模式後，請連接WIFI名稱為ESP-XXXX，之後進入192.168.4.1設定WIFI。
 //5.感應器資料腳接D7 (13)
 
 
@@ -280,33 +280,4 @@ String getSsidPwdFromJson(String val,String field){
     
     return s;
   }
-}
-
-//用WS寫入MySql
-void send_data_by_php(String dev_typ,String val){
-  int iLnk = 0;
-  String s;
- 
-  if (client.connect("www.inskychen.com", 80)) {
-    iLnk = 1;
-  }
-  while(iLnk ==0){
-    delay(500);
-    Serial.print(F("\nreconnect php srv"));
-    if (client.connect("www.inskychen.com", 80)) {
-      iLnk = 1;
-    }   
-  }
-  
-  s = "GET /getenvlog.php?devtyp=" + dev_typ + "&val=" + val + 
-      " HTTP/1.1\r\n" +
-      "Host:www.inskychen.com \r\n"+
-      "Connection: close\r\n\r\n";
-  Serial.print(F("\n"));
-  Serial.print(s);
-  client.println(s);
-  String line = client.readStringUntil('\r');                
-  Serial.println(line);
-  Serial.print(F("\nclosing connection"));
-  client.stop();
 }
