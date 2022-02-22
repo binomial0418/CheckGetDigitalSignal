@@ -1,0 +1,2 @@
+# CheckGetDigitalSignal
+with wifi manager
